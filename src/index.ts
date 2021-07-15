@@ -4,11 +4,11 @@ import login from "./endpoints/login";
 // import myProfile from "./endpoints/myProfile";
 // import yourProfile from "./endpoints/yourProfile";
 import createMusic from "./endpoints/createMusic";
-// import getRecipe from "./endpoints/getRecipe";
+import getAllMusics from "./endpoints/getAllMusics";
 
 app.post('/user/signup', signup);
 app.post('/user/login', login);
-// app.get('/user/profile', myProfile);
+app.get('/music/all', getAllMusics);
 // app.get('/user/:id', yourProfile);
 app.post('/music/create', createMusic);
 // app.get('/recipe/:id', getRecipe);
