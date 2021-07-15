@@ -15,14 +15,14 @@ export default async function signup(
  
        if (!name || !nickname || !email || !password ) {
           res.statusCode = 422
-          throw new Error("Preencha os campos 'name', 'nickname', 'email' e 'password'")
+          throw new Error("Fill in the fields 'name', 'nickname', 'email' e 'password'")
        }
        if (!email.includes("@") ) {
-          throw new Error("O campo de email precisa de um '@'")
+          throw new Error("The email field needs an '@'")
        }
  
-       if ( password.length <= 6 ) {
-         throw new Error("Password deve ter no minímo 6 caracteres")
+       if ( password.length < 6 ) {
+         throw new Error("Password must have at least 6 characters")
        }
  
        const [user] = await connection('lamusic_users')
@@ -30,7 +30,7 @@ export default async function signup(
  
        if (user) {
           res.statusCode = 409
-          throw new Error('Nome ou Email já cadastrado')
+          throw new Error('Name or Email already registered')
        }
  
        const id: string = generateId();

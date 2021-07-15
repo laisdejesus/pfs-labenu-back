@@ -10,17 +10,17 @@ export type user = {
 export type music = {
     id: string,
     title: string,
-    author: string,
-    date: Date,
+    author_id: string,
     file_string: string,
+    album_id: string
 }
 
 export type album = {
-    id: string,
-    name: string
+    id_album: string,
+    name_album: string
 }
 
 export type genre = {
-    id: string,
-    name: string
+    id_genre: string,
+    name_genre: string
 }
