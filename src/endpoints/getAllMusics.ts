@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
 import connection from "../connection";
 import { getTokenData, authenticationData } from "../services/authenticator";
-import { generateId } from "../services/idGenerator";
-import { music, album, genre } from "../types";
-import { createHash, compareHash} from "../services/hashManager"
 
-export default async function createRecipe(
+export default async function getAllMusics(
    req: Request,
    res: Response
 ): Promise<void> {
@@ -21,7 +18,7 @@ export default async function createRecipe(
       
         const result = await connection("lamusic_music").select("title");
 
-        res.status(201).send(result)        
+        res.status(200).send(result)        
 
    } catch (error) {
         let message = error.sqlMessage || error.message

@@ -41,7 +41,7 @@ export default async function login(
         }
     );  
    
-      res.status(201).send({ token })
+      res.status(200).send({ token })
 
    } catch (error) {
       res.status(400).send({ message: error.message})
