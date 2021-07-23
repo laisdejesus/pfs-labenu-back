@@ -13,7 +13,7 @@ export type music = {
     author_id: string,
     file_string: string,
     album_id: string,
-    ids_genres: string[]
+    names_genres: string[]
 }
 
 export type album = {
@@ -27,10 +27,17 @@ export type genre = {
 }
 
 export type musicGenre = {
-    id_genre1: string,
-    id_genre2: string,
-    id_genre3: string,
-    id_genre4: string
+    music_id: string,
+    genre_id: string,
+    id_genre: string,
+    name_genre: string
+    // music_id2: string,
+    // genre_id2: string,
+    // id_genre2: string,
+    // name_genre2: string
+    // id_genre2: string,
+    // name_genre2: string,
+    // id_genre3: string,
+    // name_genre3: string
 }
-
 export type musicGenres = music & genre

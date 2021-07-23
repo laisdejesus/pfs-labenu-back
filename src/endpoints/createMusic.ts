@@ -10,21 +10,21 @@ export default async function createMusic(
    res: Response
 ): Promise<void> {
    try {    
-        const { title, file_string, id_genre, id_album } = req.body
+        const { title, file_string, names_genres, id_album } = req.body
 
         const token = req.headers.authorization as string;
         const verifiedToken: authenticationData = getTokenData(token);
-
-
-        if ( !title || !file_string || !id_genre || !id_album ) {
-            res.statusCode = 422
-            throw new Error("Fill in the fields 'title', 'file', 'genres' e 'album'")
-        }
 
         if(!verifiedToken){
             res.statusCode = 403
             res.statusMessage = "Você não está logado"
             throw new Error()
+        }
+
+
+        if ( !title || !file_string || !names_genres || !id_album ) {
+            res.statusCode = 422
+            throw new Error("Fill in the fields 'title', 'file', 'genres' e 'album'")
         }
       
         const [music] = await connection('lamusic_music')
@@ -35,31 +35,30 @@ export default async function createMusic(
             throw new Error('Music already registered')
         }
 
-        const idsGenres_String = id_genre.toString()
+        // const id_genre = await connection("lamusic_genre")
+        //     .select("id_genre")
+        //     .where({name_genre});
+        
+
+        const namesGenres_String = names_genres.toString()
         
         const id: string = generateId();
-        const newMusic: music = { id, title, author_id: verifiedToken.id, file_string, album_id: id_album, ids_genres: idsGenres_String }
+        const newMusic: music = { id, title, author_id: verifiedToken.id, file_string, album_id: id_album, names_genres: namesGenres_String }
         await connection('lamusic_music')
             .insert(newMusic)
-
-        
-        id_genre.forEach(async (genre: any) => {
-            await connection.raw(`
-            INSERT INTO lamusic_music_genres
-            VALUES ("${id}", "${genre}");`)
-        });
-
             
-        // for (var i = 0; i < id_genre.length; i++) {
-        //     await connection.raw(`
-        //     INSERT INTO lamusic_music_genres
-        //     VALUES ("${id}", "${id_genre[i]}");
-        // `)}
-        
+            
+        // names_genres.forEach(async (genre: any) => {
+        //     await connection("lamusic_genre")
+        //     .select("id_genre")
+        //     .where({name_genre})
+    
+                
+        //     });
 
         let message = "Music created successfully"
 
-        res.status(201).send({ message, newMusic })
+        res.status(201).send({ message,  newMusic })
         
 
    } catch (error) {

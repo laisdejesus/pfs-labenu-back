@@ -14,9 +14,11 @@ export default async function getAllMusics(
             res.statusCode = 403
             res.statusMessage = "Você não está logado"
             throw new Error()
+            console.log(res.statusMessage)
         }
       
-        const result = await connection("lamusic_music").select("id","title", "date");
+        const result = await connection("lamusic_genre").select("*");
+        
 
         res.status(200).send(result)        
 

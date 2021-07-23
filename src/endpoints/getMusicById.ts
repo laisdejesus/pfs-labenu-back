@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import connection from "../connection";
 import { getTokenData, authenticationData } from "../services/authenticator";
 import { generateId } from "../services/idGenerator";
-import { music, musicGenre, musicGenres } from "../types";
+import { album, music, musicGenre, musicGenres } from "../types";
 import { createHash, compareHash} from "../services/hashManager"
 
 export default async function getMusicById(
@@ -39,59 +39,46 @@ export default async function getMusicById(
             author_id: musicResult[0].author_id,
             file_string: musicResult[0].file_string,
             album_id: musicResult[0].album_id,
-            ids_genres: musicResult[0].ids_genres
+            names_genres: musicResult[0].names_genres
 
         }
-
-        
-
-        // const genreMusicResult: any = await connection.raw(`
-        //     SELECT *
-        //     FROM lamusic_music_genres
-        //     JOIN lamusic_music
-        //     ON lamusic_music_genres.music_id = lamusic_music.id
-        //     JOIN lamusic_genre
-        //     ON lamusic_music_genres.genres_id = lamusic_genre.id_genre;
-        // `) 
 
         const genreMusicResult: any = await connection.raw(`
-            SELECT genre_id
-            FROM lamusic_music_genres
-            WHERE lamusic_music_genres.music_id = "${ id }"
-            
+            SELECT * FROM lamusic_music_genres
+            JOIN lamusic_genre
+            ON lamusic_music_genres.genre_id = lamusic_genre.id_genre
+            WHERE lamusic_music_genres.music_id = "${ id }";        
         `)
 
-        // const genreMusicResult: any = await connection("lamusic_music_genres")
-        //     .select("*")
-        //     .where("music_id" = { id })
-
-        if (!genreMusicResult[0]) {
-            res.statusCode = 404
-            message = "Music not found"
-            throw new Error(message)
-        }
-
         const genreMusic: musicGenre = {
-            id_genre1: genreMusicResult[0].id_genre1,
-            id_genre2: genreMusicResult[0].id_genre2,
-            id_genre3: genreMusicResult[0].id_genre3,
-            id_genre4: genreMusicResult[0].id_genre4
-
+            music_id: genreMusicResult[0].music_id,
+            genre_id: genreMusicResult[0].genre_id,
+            id_genre: genreMusicResult[0].id_genre,
+            name_genre: genreMusicResult[0].name_genre,
+            // music_id2: genreMusicResult[0].music_id2,
+            // genre_id2: genreMusicResult[0].genre_id2,
+            // id_genre2: genreMusicResult[0].id_genre2,
+            // name_genre2: genreMusicResult[0].name_genre2,
+            // id_genre2: genreMusicResult[0].id_genre2,
+            // name_genre2: genreMusicResult[0].name_genre2,
+            // id_genre3: genreMusicResult[0].id_genre3,
+            // name_genre3: genreMusicResult[0].name_genre3
         }
 
-        // const genreMusic: musicGenres = {
-        //     id: genreMusicResult[0].id,
-        //     title: genreMusicResult[0].title,
-        //     author_id: genreMusicResult[0].author_id,
-        //     ids_genres: genreMusicResult[0].ids_genres,
-        //     file_string: genreMusicResult[0].file_string,
-        //     album_id: genreMusicResult[0].album_id,
-        //     id_genre: genreMusicResult[0].id_genre,
-        //     name_genre: genreMusicResult[0].name_genre
+        const albumMusicResult: any = await connection.raw(`
+            SELECT * FROM lamusic_music
+            JOIN lamusic_album
+            ON lamusic_album.id_album = lamusic_music.album_id
+            WHERE lamusic_music.id = "${ id }";        
+        `)
 
-        // }
+        const albumMusic: album = {
+            id_album: albumMusicResult[0][0].id_album,
+            name_album: albumMusicResult[0][0].name_album
+        }
+        console.log(albumMusicResult)
 
-        res.status(200).send({ message, music, genreMusicResult })
+        res.status(200).send({ message, music, albumMusic, genreMusicResult })
         
 
    } catch (error) {
