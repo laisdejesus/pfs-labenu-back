@@ -1,4 +1,4 @@
-## Labmusic - Projeto FullStack 1 (Frontend)
+## Labmusic - Projeto FullStack 1 (Backend)
 
 Projeto de final de curso da Labenu.
 Aplicação que gerencie músicas através da criação de playlists.
@@ -7,32 +7,36 @@ Aplicação que gerencie músicas através da criação de playlists.
 
 #### Stacks e libs utilizadas:
 - Javascript;
-- React.js;
-- Styled-Components;
+- Typescript;
+- Bcryptjs;
 - Axios;
-- Router
+- Knex;
+- MySQL;
+- Express;
+- Jsonwebtoken
 
 #### Features
-##### Usuário
-- [x] Cadastro;
-- [x] Login
+##### Endpoints de Usuário
+- [x] Cadastro (signup);
+- [x] Login (login)
 
-##### Música
-- [x] Criação de Música;
-- [x] Lista de playlists;
-- [ ] Detalhe de música;
+##### Endpoints de Música
+- [x] Criação de Música (CreateMusic);
+- [x] Lista de músicas (getAllMusics);
+- [x] Detalhe de música (getMusicById);
+- [x] Lista de Gêneros (getAllGenres);
+- [ ] Lista de playlists/albums
 
 #### O que já foi feito e funciona:
-- Requisições dos endpoints (Cadastro, login, criação de música, Lista de playlists)
-- Fluxo de páginas (Rotas)
+- Endpoints de cadastro, login, criação de música, lista de musicas e de gênero, 
 
 #### O que não funciona e/ou não foi feito ainda:
-- Requisições dos endpoints (Detalhe de música)
-- Estilização das páginas
+- Endpoints de lista de playlists
+- Organização usando Arquitetura
 - Testes
 
 #### Instalação:
 1) Git clone <link do repo>
 2) npm install
-3) npm run start
+3) npm run dev start
 
